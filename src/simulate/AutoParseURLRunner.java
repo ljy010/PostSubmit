@@ -37,6 +37,10 @@ public class AutoParseURLRunner implements Callable<HttpState> {
 		// TODO Auto-generated method stub
 
 	}
+	
+	private boolean isMatch(String title, String keyStr){
+		return false;
+	}
 
 	@Override
 	public HttpState call() throws Exception {

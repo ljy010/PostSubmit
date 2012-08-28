@@ -63,7 +63,7 @@ public class AutoGrabFloorSubmit implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String url = "http://bj.jiehun.com.cn/bbs/topic/29761.html";
+		String url = "http://bj.jiehun.com.cn/bbs/topic/39871.html";
 		int [] floors = {};
 		AutoGrabFloorSubmit post = new AutoGrabFloorSubmit(AutoLoginRunner.LOGIN_USER_LJY, url, floors);
 		ExecutorService executorService = Executors.newCachedThreadPool();

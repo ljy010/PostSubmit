@@ -1,8 +1,5 @@
 package simulate.submit;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import simulate.AutoLoginRunner;
 import simulate.AutoParseURLRunner;
 import simulate.AutoPostRunner;
@@ -22,10 +19,13 @@ public class AutoPostSubmit implements Runnable {
 	
 	private String replyContent = null;
 	
-	public AutoPostSubmit(String loginUser, String titleKeyWord, String replyContent){
+	private AutoPostSubmitConfig submitConfig = null;
+	
+	public AutoPostSubmit(String loginUser, String titleKeyWord, String replyContent, AutoPostSubmitConfig autoPostSubmitConfig){
 		this.loginUser = loginUser;
 		this.titleKeyWord = titleKeyWord;
 		this.replyContent = replyContent;
+		this.submitConfig = autoPostSubmitConfig;
 	}
 	
 	/**
@@ -33,10 +33,10 @@ public class AutoPostSubmit implements Runnable {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		AutoPostSubmit post = new AutoPostSubmit(AutoLoginRunner.LOGIN_USER_LJY, "8ÔÂ14ÈÕÇ©ÍË", "Ç©ÍËÀ²Ç©ÍËÀ²¹þ");
-		ExecutorService executorService = Executors.newCachedThreadPool();
-		executorService.execute(post);
-		executorService.shutdown();
+//		AutoPostSubmit post = new AutoPostSubmit(AutoLoginRunner.LOGIN_USER_DR, "8ÔÂ28ÈÕÇ©ÍË", "Ç©ÍËÀ²Ç©ÍËÀ²¹þ");
+//		ExecutorService executorService = Executors.newCachedThreadPool();
+//		executorService.execute(post);
+//		executorService.shutdown();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class AutoPostSubmit implements Runnable {
 				AutoLoginRunner login = new AutoLoginRunner(state, this.loginUser);
 				state = login.call();
 				if(!state.isLogin()){
-					Thread.sleep(500);	
+					Thread.sleep(submitConfig.getLoginInterval());	
 					System.out.println("login....");
 				}
 			}
@@ -58,13 +58,13 @@ public class AutoPostSubmit implements Runnable {
 				AutoParseURLRunner url =  new AutoParseURLRunner(state, this.titleKeyWord);
 				state = url.call();
 				if(state.getUrl() == null){
-					Thread.sleep(500);	
+					Thread.sleep(submitConfig.getParseURLInterval());	
 					System.out.println("URLParsing....");
 				}
 			
 			}
 			
-			Thread.sleep(4000);	
+			Thread.sleep(submitConfig.getPostReplyInterval());	
 			if((state.getUrl() != null) && (!state.getUrl().equals(""))){
 				AutoPostRunner post = new AutoPostRunner(state, this.replyContent);
 			    post.call();	
