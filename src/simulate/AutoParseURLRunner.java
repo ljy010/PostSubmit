@@ -51,12 +51,18 @@ public class AutoParseURLRunner implements Callable<HttpState> {
 		try{
 			if(httpConnection != null){
 				NodeFilter linkFilter = new NodeClassFilter(LinkTag.class);
+				
+				NodeFilter divParentFilter = new NodeClassFilter(Div.class);
+				NodeFilter divParentAttrFilter = new HasAttributeFilter("class", "g-u slt nomal_img");
+				NodeFilter divParentAndFilter = new AndFilter(divParentFilter, divParentAttrFilter);
 			    
 			    NodeFilter ppFilter = new NodeClassFilter(Div.class);
 			    NodeFilter ppAttrFilter = new HasAttributeFilter("class", "title");
 			    NodeFilter ppAndFilter = new AndFilter(ppFilter, ppAttrFilter);
+			    
+			    NodeFilter parentDivFilter = new AndFilter(ppAndFilter, new HasParentFilter(divParentAndFilter));
 			    			    
-			    NodeFilter linkAndFilter = new AndFilter(linkFilter, new HasParentFilter(ppAndFilter));
+			    NodeFilter linkAndFilter = new AndFilter(linkFilter, new HasParentFilter(parentDivFilter));
 				
 			    Parser parser;
 			    parser = new Parser(httpConnection);

@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.htmlparser.Node;
 import org.htmlparser.NodeFilter;
@@ -15,6 +19,7 @@ import org.htmlparser.Parser;
 import org.htmlparser.beans.FilterBean;
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.HasAttributeFilter;
+import org.htmlparser.filters.HasParentFilter;
 import org.htmlparser.filters.TagNameFilter;
 import org.htmlparser.parserapplications.filterbuilder.Filter;
 import org.htmlparser.tags.InputTag;
@@ -22,6 +27,38 @@ import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
 public class HttpHtmlParserUtils {
+	
+	public static NodeList getHiddenInputNodeListByForm(Parser parser, Map<String, String> formAttrMap) throws ParserException{
+		NodeFilter formFilter = new TagNameFilter("form");
+		
+		NodeFilter[] attrFilters = new NodeFilter[formAttrMap.size()]; 
+		
+		Set<Entry<String, String>> attrMapSet = formAttrMap.entrySet();
+		Iterator<Entry<String, String>> itr = attrMapSet.iterator();
+		
+		int index = 0;
+		while(itr.hasNext()){
+			Entry<String, String> entry = itr.next();
+			NodeFilter attrFilter = new HasAttributeFilter(entry.getKey(), entry.getValue());
+			attrFilters[index++] = attrFilter;
+		}
+		NodeFilter andFilter = new AndFilter(attrFilters);
+		NodeFilter formAttrFilter = new AndFilter(formFilter, andFilter);
+		
+		NodeFilter inputFilter = new TagNameFilter("input");
+		NodeFilter attrFilter = new HasAttributeFilter("type", "hidden");
+		NodeFilter hiddenAndFilter = new AndFilter(inputFilter, attrFilter);
+		
+		NodeFilter parentFilter = new HasParentFilter(formAttrFilter);
+		
+		NodeFilter[] andFilters = new NodeFilter[2];
+		andFilters[0] = hiddenAndFilter;
+		andFilters[1] = parentFilter;
+		
+		
+		NodeFilter inputAttrAndFilter = new AndFilter(andFilters);
+		return parser.extractAllNodesThatMatch(inputAttrAndFilter);				
+	}
 	
 
 	public static NodeList getNodeListByInputType(Parser parser, String inputType) throws ParserException{

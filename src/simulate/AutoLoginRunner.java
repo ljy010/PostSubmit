@@ -23,9 +23,9 @@ public class AutoLoginRunner implements Callable<HttpState> {
 	
 	public static String LOGIN_USER_DR = "user_name=18610318624&psw=388338eba7454b2922e5a677c3807542";
 	
-	public AutoLoginRunner(HttpState httpState, String loginUser){
+	public AutoLoginRunner(HttpState httpState){
 		this.httpState = httpState;
-		this.login_user = loginUser;
+		this.login_user = httpState.getLoginUser();
 	}
 	
 	private void initCookie() throws IOException{

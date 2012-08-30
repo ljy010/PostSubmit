@@ -14,7 +14,6 @@ public class AutoPostSubmitConfig {
 	}
 
 
-
 	public void setLoginInterval(long loginInterval) {
 		this.loginInterval = loginInterval;
 	}

@@ -43,9 +43,7 @@ public class HttpReponse {
 	
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
-		sb.append("responseCode:" + responseCode).append("\n");
-		sb.append("responseLength:" + contentlength).append("\n");
-		sb.append("responseMsg:" + responseMsg).append("\n");
+		
 		
 		return sb.toString();
 	}

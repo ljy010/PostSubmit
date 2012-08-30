@@ -14,6 +14,24 @@ public class HttpState {
 	
 	private String url = null;
 	
+	private String loginUser = null;
+	
+	public HttpState(String loginUser){
+		this.loginUser = loginUser;
+	}
+	
+	public String getLoginUser() {
+		return loginUser;
+	}
+
+
+
+	public void setLoginUser(String loginUser) {
+		this.loginUser = loginUser;
+	}
+
+
+
 	public String getUrl() {
 		return url;
 	}

@@ -32,11 +32,11 @@ public class AutoGrabFloorSubmit implements Runnable {
 	public void run() {
 		try{
 //			long start = System.currentTimeMillis();
-			HttpState state = new HttpState();
+			HttpState state = new HttpState(this.loginUser);
 			
 
 			while(!state.isLogin()){
-				AutoLoginRunner login = new AutoLoginRunner(state, this.loginUser);
+				AutoLoginRunner login = new AutoLoginRunner(state);
 				state = login.call();
 				if(!state.isLogin()){
 					Thread.sleep(500);	

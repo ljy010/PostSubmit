@@ -3,6 +3,7 @@ package simulate.submit;
 import simulate.AutoLoginRunner;
 import simulate.AutoParseURLRunner;
 import simulate.AutoPostRunner;
+import simulate.test.PerformTest;
 
 import common.HttpState;
 
@@ -43,10 +44,10 @@ public class AutoPostSubmit implements Runnable {
 	public void run() {
 		try{
 //			long start = System.currentTimeMillis();
-			HttpState state = new HttpState();
+			HttpState state = new HttpState(this.loginUser);
 
 			while(!state.isLogin()){
-				AutoLoginRunner login = new AutoLoginRunner(state, this.loginUser);
+				AutoLoginRunner login = new AutoLoginRunner(state);
 				state = login.call();
 				if(!state.isLogin()){
 					Thread.sleep(submitConfig.getLoginInterval());	
@@ -66,8 +67,10 @@ public class AutoPostSubmit implements Runnable {
 			
 			Thread.sleep(submitConfig.getPostReplyInterval());	
 			if((state.getUrl() != null) && (!state.getUrl().equals(""))){
+//				long start = System.currentTimeMillis();
 				AutoPostRunner post = new AutoPostRunner(state, this.replyContent);
 			    post.call();	
+//			    long end = System.currentTimeMillis();
 			}
 //			long end = System.currentTimeMillis();
 //			System.out.print("time:" + (end - start));

@@ -86,33 +86,25 @@ public class AutoPostRunner implements Callable<HttpState> {
 			httpConnection.setDoInput(true);
 			httpConnection.setUseCaches(false);
 //			URLConnectinUtils.printInputStream(httpConnection.getInputStream());
+			Map<String, String> formMap = new HashMap<String, String>();
+			formMap.put("action", "/bbs/topic/_addpost");
+			formMap.put("method", "post");
+			formMap.put("id", "postForm");
 			
 			Parser parser = new Parser(httpConnection);
-			NodeList nodes = HttpHtmlParserUtils.getNodeListByInputType(parser, "hidden");
+			NodeList nodes = HttpHtmlParserUtils.getHiddenInputNodeListByForm(parser, formMap);
 			for(int i = 0; i < nodes.size(); i++){
 				Node node = nodes.elementAt(i);
 				if(node instanceof InputTag){
 					InputTag inputTag = (InputTag)node;
 //					System.out.println(inputTag.toHtml());
-					Set<Map.Entry<String, String>> mapEntry = paramPair.entrySet();
-					Iterator<Entry<String, String>> itr = mapEntry.iterator();
-					while(itr.hasNext()){
-						Map.Entry<String, String> entry = itr.next();
-						String attrName = entry.getKey();
-						String attrMapValue = entry.getValue();
-						if(attrMapValue.equals("")){
-							String  attrValue = inputTag.getAttribute("name");
-							if((attrValue != null) && (attrName.equals(attrValue))){
-								String value = inputTag.getAttribute("value");
-								if(attrName.equals("topic_title")){
-									value = URLEncoder.encode(value, "utf-8");
-								}
-								paramPair.put(attrName, value);
-								break;
-							}	
+					String  attrName = inputTag.getAttribute("name");
+					if(paramPair.containsKey(attrName)){
+						String value = inputTag.getAttribute("value");
+						if(attrName.equals("topic_title")){
+							value = URLEncoder.encode(value, "utf-8");
 						}
-						
-						
+						paramPair.put(attrName, value);
 					}
 				}
 			}
@@ -160,8 +152,7 @@ public class AutoPostRunner implements Callable<HttpState> {
 		try{
 			HttpRequestHeader header = createPostHeader();
 			HttpReponse response = URLConnectinUtils.doPostMethod(httpConnection, header, postParamContent);
-			System.out.println(response);
-//			URLConnectinUtils.printHttpResponse(response);
+			URLConnectinUtils.printHttpResponse(response);
 		}finally{
 			URLConnectinUtils.closeHttpConnection(httpConnection);
 		}
