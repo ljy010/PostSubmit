@@ -11,7 +11,7 @@ public class QianDao {
 	private static String dateStr = DateUtils.getCurrentMonthDay() + "Ç©µ½";;
 	
 	private static String getReplyUser(){
-		return AutoLoginRunner.LOGIN_USER_LJY;
+		return AutoLoginRunner.LOGIN_USER_DR;
 	}
 	
 	private static String getReplyDate(){
@@ -27,7 +27,7 @@ public class QianDao {
 	 */
 	public static void main(String[] args) {
 		AutoPostSubmitConfig submitConfig = new AutoPostSubmitConfig();
-		submitConfig.setPostReplyInterval(2500);
+		submitConfig.setPostReplyInterval(3500);
 		AutoPostSubmit post = new AutoPostSubmit(getReplyUser(), getReplyDate(), getReplyContent(), submitConfig);
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		executorService.execute(post);

@@ -18,7 +18,9 @@ public class PerformTest {
 			long startTime = System.currentTimeMillis();
 			run.call();
 			long endTime = System.currentTimeMillis();
-			return endTime - startTime;
+			long time = endTime - startTime;
+			System.out.println(time);
+			return time;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,17 +36,19 @@ public class PerformTest {
 	
 	public static long testParseTime(){
 		HttpState state = new HttpState(null);
-		AutoParseURLRunner parse = new AutoParseURLRunner(state, "9月1日签到");
+		AutoParseURLRunner parse = new AutoParseURLRunner(state, "8月30日签到");
 		return effectTest(parse);
 	}
 
 	/**
 	 * @param args
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		double t = 0;
 		for(int i = 0; i < 20; i++){
 		  t = t + testParseTime();	
+		  Thread.sleep(500);
 		}
 		System.out.println("avg time : " + (t / 20));
 	}

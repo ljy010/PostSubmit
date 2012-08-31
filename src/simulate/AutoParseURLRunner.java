@@ -82,7 +82,7 @@ public class AutoParseURLRunner implements Callable<HttpState> {
 				}
 				URLConnectinUtils.updateCookie(httpConnection, httpState);
 				httpState.setUrl(url);
-				System.out.println("getUrl:" + url);
+				//System.out.println("getUrl:" + url);
 			}
 		}finally{
 			URLConnectinUtils.closeHttpConnection(httpConnection);
