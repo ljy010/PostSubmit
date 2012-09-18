@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateUtils {
 	
-	private static String DEFAULT_MONTH_PATERN = "M月dd日";
+	private static String DEFAULT_MONTH_PATERN = "M月d日";
 	
 	public static String getCurrentMonthDay(){
 		DateFormat dateFormat = new SimpleDateFormat(DEFAULT_MONTH_PATERN);

@@ -11,7 +11,7 @@ public class QianDao {
 	private static String dateStr = DateUtils.getCurrentMonthDay() + "Ç©µ½";;
 	
 	private static String getReplyUser(){
-		return AutoLoginRunner.LOGIN_USER_DR;
+		return AutoLoginRunner.LOGIN_USER_LJY;
 	}
 	
 	private static String getReplyDate(){

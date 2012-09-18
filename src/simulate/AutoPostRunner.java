@@ -59,7 +59,7 @@ public class AutoPostRunner implements Callable<HttpState> {
 		paramPair.put("topic_title", "");
 		paramPair.put("city_host", "");
 		paramPair.put("post_total", "");
-		paramPair.put("rr_content", "");
+		paramPair.put("rr_content_ss", "");
 	}
 	
 	public AutoPostRunner(HttpState httpState, String reply){
@@ -109,7 +109,7 @@ public class AutoPostRunner implements Callable<HttpState> {
 				}
 			}
 			
-			paramPair.put("rr_content", URLEncoder.encode(replyContent, "UTF-8"));	
+			paramPair.put("rr_content_ss", URLEncoder.encode(replyContent, "UTF-8"));	
 		}finally{
 			URLConnectinUtils.closeHttpConnection(httpConnection);
 		}

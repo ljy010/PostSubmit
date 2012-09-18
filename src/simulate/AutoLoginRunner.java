@@ -50,11 +50,12 @@ public class AutoLoginRunner implements Callable<HttpState> {
 		HttpURLConnection httpConnection = URLConnectinUtils.createHttpURLConnection(LOGIN_ACTION_URL);
 		try{
 		    HttpRequestHeader header = createRequestHeader();
-		    HttpReponse reponse = URLConnectinUtils.doPostMethod(httpConnection, header, login_user);
+		    HttpReponse response = URLConnectinUtils.doPostMethod(httpConnection, header, login_user);
 //		    System.out.println("===================loing response begin=====================");
 //		    System.out.println(reponse);
 //		    System.out.println("===================loing response end=====================");
 		    URLConnectinUtils.updateCookie(httpConnection, httpState);
+		    URLConnectinUtils.printHttpResponse(response);
 //		    System.out.println("after login cookie:" + httpState.getCookie());
 		    httpState.setLogin(true);
 		}finally{

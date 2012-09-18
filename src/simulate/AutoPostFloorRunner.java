@@ -56,7 +56,7 @@ public class AutoPostFloorRunner extends AutoPostRunner {
 	
 	public String getReplyContent(int floor){
 		String rp = String.valueOf(floor);
-		rp = "我来抢楼试试哈," + rp;
+		rp = "两个黄鹂鸣翠柳，珂兰钻石五周年";
 		return rp;
 	}
 	
@@ -71,8 +71,12 @@ public class AutoPostFloorRunner extends AutoPostRunner {
 		if(httpState.getUrl() == null){
 			return httpState;
 		}
+//		String rp = getReplyContent(553);
+//		int curentFloor = getCurFloor(rp);
+//		submit(getReplyContent(1));
+		
 		for(int curFloor: floor){
-			int preFloor = curFloor - 1;
+			int preFloor = curFloor - 5;
 
 			String rp = getReplyContent(curFloor);
 			int curentFloor = getCurFloor(rp);
@@ -83,15 +87,20 @@ public class AutoPostFloorRunner extends AutoPostRunner {
 				
 			while((curentFloor < preFloor) && (curentFloor > 0)){
 				curentFloor = getCurFloor(rp);
-				Thread.sleep(50);
-				break;
 			}
-			if(curentFloor == preFloor){
-				submit(rp);	
+
+			if((curFloor > curentFloor)){
+				int minusFloor = curFloor - curentFloor;
+				if(minusFloor > 2){
+					Thread.sleep(100 * (minusFloor - 2));
+				}
+				submit(rp);
 			}
+			
 			Thread.sleep(1000);
 			
 		}
+		
 		
 		return httpState;
 	}
